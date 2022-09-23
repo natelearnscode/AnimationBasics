@@ -49,10 +49,10 @@ static int maxNumAgents = 5;
 int numAgents = 5;
 
 float k_goal = 7;  //TODO: Tune this parameter to agent stop naturally on their goals
-float k_avoid = 50;
+float k_avoid = 60;
 float agentRad = 40;
-float agentVisualRad = agentRad - 5; // visual radius is slightly smaller than radius for collision
-float goalSpeed = 100;
+float agentVisualRad = agentRad - 10; // visual radius is slightly smaller than radius for collision
+float goalSpeed = 200;
 
 //The agent states
 Vec2[] agentPos = new Vec2[maxNumAgents];
@@ -102,7 +102,9 @@ Vec2 computeAgentForces(int id){
   //TODO: Make this better
   Vec2 acc = new Vec2(0,0);
   Vec2 goalVel = goalPos[id].minus(agentPos[id]);
-  
+  if(goalVel.length() > goalSpeed) {
+    goalVel.setToLength(goalSpeed);
+  }
   // apply goal force
   Vec2 goalForce = (goalVel.minus(agentVel[id])).times(k_goal);
   acc = acc.plus(goalForce);
